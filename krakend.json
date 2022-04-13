@@ -1,0 +1,38 @@
+{
+  "version": 3,
+  "name": "test api",
+  "timeout": "15000ms",
+  "cache_ttl": "300s",
+  "port": 8080,
+  "$schema": "https://www.krakend.io/schema/v3.json",
+  "plugin": {
+    "folder": "plugins/",
+    "pattern": ".so"
+  },
+  "extra_config": {
+    "telemetry/logging": {
+      "level": "DEBUG",
+      "prefix": "[KRAKEND]",
+      "syslog": false,
+      "stdout": true,
+      "format": "default"
+    }
+  },
+  "endpoints": [
+    {
+      "endpoint": "/v1/test",
+      "method": "GET",
+      "backend": [
+        {
+          "url_pattern": "/api/v1/test",
+          "method": "GET",
+          "host": ["http://host.docker.internal:8081"],
+          "encoding": "no-op"
+        }
+      ],
+      "output_encoding": "no-op",
+      "input_headers": ["*"],
+      "input_query_strings": ["*"]
+    }
+  ]
+}
